@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <title>Call NASA ROVER PHOTO API throgh FETCH METHOD</title>
+
+</head>
+
+<body class="container-fluid">
+    <button onclick="FetchClick()" class="btn btn-primary mt-4">Fetch Data</button>
+    <main class="d-flex flex-wrap">
+
+    </main>
+
+
+    <script>
+        function FetchClick() {
+            fetch("https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=DEMO_KEY&quot").then(function (response) {
+                return response.json();
+            })
+                .then(function (obj) {
+                    obj.photos.map(function (item) {
+                        var div = document.createElement("div");
+                        div.className = "card m-2 p-2";
+                        div.style.width = "400px";
+                        div.innerHTML = `
+                        
+                        <a href=${item.img_src}><img src=${item.img_src} class="card-img-top" height="250"></a>
+                        <div class="card-header">
+                            <h3>${item.id}</h3>
+                        </div>
+                        <div class="card-body">
+                            <dl>
+                                <dt>Camera</dt>
+                                <dd>${item.camera.full_name}</dd>
+                                <dt>Rover</dt>
+                                <dd>${item.rover.full_name}</dd>
+                            </dl>
+                        </div>
+    
+                        `;
+
+                        document.querySelector("main").appendChild(div);
+
+                    })
+                })
+        }
+    </script>
+</body>
+
+</html>
